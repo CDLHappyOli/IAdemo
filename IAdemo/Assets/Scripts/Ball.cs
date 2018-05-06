@@ -42,7 +42,7 @@ public class Ball : MonoBehaviour {
 	}
 	
 
-	void Update () {
+	void FixedUpdate () {
 
 		//Chama o Método responsavel por chamar o método de movimentação da bola.
 		CallMov();
@@ -100,14 +100,14 @@ public class Ball : MonoBehaviour {
 		//Ajusta Angulo da bola de acordo com o local da colisão.
 		if(transform.position.y == c.transform.position.y){
 			acertarAngulo = 0f;
-			speed = 10f;
+			speed ++;
 		} else if (transform.position.y >= c.transform.position.y + 0.5f && transform.position.y <= c.transform.position.y + 0.8f  || 
 			transform.position.y <= c.transform.position.y - 0.5f && transform.position.y >= c.transform.position.y + 0.8f  ){
 			acertarAngulo = 0.5f;
-			speed = 15f;
+			speed = speed + 2f;;
 		} else if (transform.position.y >= c.transform.position.y + 0.8f || transform.position.y <= c.transform.position.y - 0.8f){
 			acertarAngulo = 1f;
-			speed = 30f;
+			speed = speed + 5f;
 		}
 
 		//Ajusta a direção na vertical
