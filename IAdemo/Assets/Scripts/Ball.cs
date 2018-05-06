@@ -38,7 +38,7 @@ public class Ball : MonoBehaviour {
 		acertarAngulo = 1f;
 
 		//Da uma velocidade a bola
-		speed = 20f;
+		speed = 10f;
 	}
 	
 
@@ -46,6 +46,9 @@ public class Ball : MonoBehaviour {
 
 		//Chama o Método responsavel por chamar o método de movimentação da bola.
 		CallMov();
+
+		//Eventos maas laterais
+	    BatendoNaParede ();
 	}
 
 	void OnTriggerEnter(Collider c){
@@ -94,19 +97,44 @@ public class Ball : MonoBehaviour {
 
 	void AjustandoAnguloDaBola(GameObject c){
 
+		//Ajusta Angulo da bola de acordo com o local da colisão.
 		if(transform.position.y == c.transform.position.y){
 			acertarAngulo = 0f;
+			speed = 10f;
 		} else if (transform.position.y >= c.transform.position.y + 0.5f && transform.position.y <= c.transform.position.y + 0.8f  || 
 			transform.position.y <= c.transform.position.y - 0.5f && transform.position.y >= c.transform.position.y + 0.8f  ){
 			acertarAngulo = 0.5f;
+			speed = 15f;
 		} else if (transform.position.y >= c.transform.position.y + 0.8f || transform.position.y <= c.transform.position.y - 0.8f){
 			acertarAngulo = 1f;
+			speed = 30f;
 		}
 
+		//Ajusta a direção na vertical
 		if(transform.position.y > c.transform.position.y){
 			dirY = Vector3.up;
 		} else if (transform.position.y < c.transform.position.y){
 			dirY = Vector3.down;
 		}
+	}
+
+	void BatendoNaParede(){
+
+		//Batendo na Vertical
+		if(transform.position.y > 5.6f ){
+			dirY = Vector3.down;
+		} else if(transform.position.y < -3.6f ){
+			dirY = Vector3.up;
+		}
+
+		//Batendo na Horizontal
+		if(transform.position.x > 10f ){
+			speed = 10f;
+			transform.position = new Vector3 (0f, 0f, 0f);
+		} else if(transform.position.x < -10f ){
+			speed = 10f;
+			transform.position = new Vector3 (0f, 0f, 0f);
+		}
+	
 	}
 }
