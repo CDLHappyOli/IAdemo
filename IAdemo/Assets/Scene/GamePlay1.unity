@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEscolhido: 0
-  iaAtiva: 1
+  iaAtiva: 0
   playerPos: {fileID: 0}
   bolaPos: {fileID: 0}
   speed: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEscolhido: 0
-  iaAtiva: 1
+  iaAtiva: 0
   playerPos: {fileID: 0}
   bolaPos: {fileID: 0}
   speed: 0
