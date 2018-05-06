@@ -18,6 +18,8 @@ public class Ball : MonoBehaviour {
 
 	public float acertarAngulo;
 
+	public float speed;
+
 
 	void Awake(){
 	
@@ -27,12 +29,26 @@ public class Ball : MonoBehaviour {
 
 	void Start () {
 		acertarAngulo = 1f;
+		speed = 20f;
 	}
 	
 
 	void Update () {
-		//Angulo.z = 0;
+		
 		Angulo = (Vector3.down * acertarAngulo  + Vector3.right).normalized;
-		ballRB.AddForce (Angulo * 10f * Time.deltaTime);
+		ballRB.AddForce (Angulo *  speed * Time.deltaTime);
+	}
+
+	void OnTriggerEnter(Collider c){
+
+		if(c.tag == "Player1"){
+
+			Toque = ultimoPlayer.PlayerOne;
+
+		} else if(c.tag == "Player2"){
+
+			Toque = ultimoPlayer.PlayerTwo;
+
+		}
 	}
 }
