@@ -11,13 +11,21 @@ public class PlayerControle : MonoBehaviour {
 
 	public tiposPlayer playerEscolhido;
 
-	public bool iaAtiva;
+	public bool iaAtivaInvencivel;
+
+	public bool iaAtivaHumanizada;
 
 	public Transform playerPos;
 
 	public Transform bolaPos;
 
 	public float speed;
+
+	public float frameCount;
+
+	public Vector3 posIA;
+
+	public bool delayIAhumana;
 
 	void Awake () {
 		//Coleta o Trasnform da Bola
@@ -30,7 +38,14 @@ public class PlayerControle : MonoBehaviour {
 		SelecionarPlayer ();
 
 
+		//Countagem de frame no inicio
+		frameCount = 4f;
+
+		//Determina uma direção inicial para IA Humanizada
+		posIA = bolaPos.position;
 	}
+
+
 	
 
 	void FixedUpdate () {
@@ -41,17 +56,24 @@ public class PlayerControle : MonoBehaviour {
 		//Controle Humano
 		ControleHumano ();
 
+		//IA Humanizada
+		IAcontroleHumanizada ();
+
 		//Não deixa o Player sair da Tela
 	    LimiteDaTela ();
 	}
 
 	void SelecionarPlayer(){
-		
+
+		//Se Estiver a Direita é o Player 1
 		if (transform.position.x < 0f) {
 			
 			playerEscolhido = tiposPlayer.Player1;
 
-		} else if (transform.position.x > 0f) {
+		} 
+
+		//Na direita, Player 2
+		else if (transform.position.x > 0f) {
 			
 			playerEscolhido = tiposPlayer.Player2;
 
@@ -59,24 +81,22 @@ public class PlayerControle : MonoBehaviour {
 	
 	}
 
+	//Ia Invencivel
 	void IAcontroleInvencivel(){
-		if (iaAtiva) {
-			/*if (transform.position.y < bolaPos.position.y) {
-				transform.Translate (Vector3.up * speed * Time.deltaTime);
-			} else 	if (transform.position.y > bolaPos.position.y) {
-				transform.Translate (Vector3.down * speed * Time.deltaTime);
-			} */
+		if (iaAtivaInvencivel && !iaAtivaHumanizada) {
 
+			//Sempre vai estar na mesma posição que a Bola
 			transform.position =new Vector3(transform.position.x, bolaPos.position.y, transform.position.z);
-			//transform.Translate (new Vector3(transform.position.x, bolaPos.position.y, transform.position.z) * speed * Time.deltaTime);
-		
+
 		}
 	
 	}
 
+	//Controle do Player
 	void ControleHumano(){
-		if (!iaAtiva) {
+		if (!iaAtivaInvencivel && !iaAtivaHumanizada ) {
 
+			//Muda a referencia do comando para cada Player, 1 e 2
 			if (playerEscolhido == tiposPlayer.Player1) {
 				float movimentoVertical = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 				transform.Translate (0f,  movimentoVertical, 0f);
@@ -89,9 +109,76 @@ public class PlayerControle : MonoBehaviour {
 		}
 	}
 
+	//Metodo que limita o valor em Y de cada player
 	void LimiteDaTela(){
 	
 		transform.position = new Vector3 (
 			transform.position.x, Mathf.Clamp(transform.position.y, -2.9f , 4.9f), transform.position.z);
 	}
-}
+
+	//IA como limitações no jogo
+	void IAcontroleHumanizada(){
+
+		//Possui um delay pra começar
+		if (delayIAhumana) {
+			if (!iaAtivaInvencivel && iaAtivaHumanizada) {
+
+				//Muda a posição que ira se mover
+				AchandoPosIA ();
+
+
+
+				if (frameCount > 0) {
+
+
+					if (transform.position.y != posIA.y) {
+
+						//Dependendo da posição entre o Player e a Bola, ira se mover para cima ou para baixo.
+						if (transform.position.y > posIA.y + 0.5f && transform.position.y > posIA.y) {
+							transform.position = new Vector3 (transform.position.x, transform.position.y - 0.2f, transform.position.z); 
+						} else if (transform.position.y < posIA.y -0.5f && transform.position.y < posIA.y) {
+							transform.position = new Vector3 (transform.position.x, transform.position.y + 0.2f, transform.position.z); 
+						} else if (transform.position.y >= posIA.y + 0.5f || transform.position.y <= posIA.y - 0.5f) {
+							Debug.Log ("Same POS");
+						}
+					}
+			
+				} else {
+					Debug.Log ("Same POS");
+				
+				}
+			}
+		}
+	}
+
+	//Seta a Posição
+	void AchandoPosIA(){
+		//CountDown das Frames, só depois desse delay que a IA percebe a nova posição da bola
+		if (frameCount > 0) {
+		
+			frameCount--;
+		
+		} else if (frameCount <= 0) {
+			Debug.Log ("Negativo");
+			frameCount = Random.Range(0, 16);
+			posIA = bolaPos.position;
+
+		}
+	
+	}
+
+	void OnTriggerEnter(Collider c){
+
+		//Caso colida com a Bola, acaba o delay da IA humanizada
+		if (c.gameObject.tag == "Ball") {
+
+			delayIAhumana = true;
+			
+		}
+	}
+
+	}
+
+
+
+

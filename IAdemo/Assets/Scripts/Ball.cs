@@ -35,7 +35,7 @@ public class Ball : MonoBehaviour {
 		ballRB = (GameObject.FindGameObjectWithTag("Ball")).GetComponent<Transform>() ;
 
 		//Certificasse de acerta o Angulo antes mesmo do Script ser chamado
-		acertarAngulo = 1f;
+		acertarAngulo = Random.Range(0f, 1f);
 
 		//Da uma velocidade a bola
 		speed = 10f;
@@ -99,7 +99,7 @@ public class Ball : MonoBehaviour {
 
 		//Ajusta Angulo da bola de acordo com o local da colisão.
 		if(transform.position.y == c.transform.position.y){
-			acertarAngulo = 0f;
+			acertarAngulo = Random.Range(0, 10);
 			speed ++;
 		} else if (transform.position.y >= c.transform.position.y + 0.5f && transform.position.y <= c.transform.position.y + 0.8f  || 
 			transform.position.y <= c.transform.position.y - 0.5f && transform.position.y >= c.transform.position.y + 0.8f  ){
@@ -123,7 +123,9 @@ public class Ball : MonoBehaviour {
 		//Batendo na Vertical
 		if(transform.position.y > 5.6f ){
 			dirY = Vector3.down;
+			acertarAngulo = 1f;
 		} else if(transform.position.y < -3.6f ){
+			acertarAngulo = 1f;
 			dirY = Vector3.up;
 		}
 

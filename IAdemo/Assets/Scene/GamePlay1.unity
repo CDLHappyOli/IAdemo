@@ -191,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 919061638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5, y: 0, z: 0}
+  m_LocalPosition: {x: 7.5, y: 0.6, z: 0}
   m_LocalScale: {x: 0.5, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -209,10 +209,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEscolhido: 0
-  iaAtiva: 0
+  iaAtivaInvencivel: 0
+  iaAtivaHumanizada: 1
   playerPos: {fileID: 0}
   bolaPos: {fileID: 0}
   speed: 0
+  frameCount: 0
+  posIA: {x: 0, y: 0, z: 0}
+  delayIAhumana: 0
 --- !u!1 &1318749760
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,10 +432,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEscolhido: 0
-  iaAtiva: 0
+  iaAtivaInvencivel: 1
+  iaAtivaHumanizada: 0
   playerPos: {fileID: 0}
   bolaPos: {fileID: 0}
   speed: 0
+  frameCount: 0
+  posIA: {x: 0, y: 0, z: 0}
+  delayIAhumana: 0
 --- !u!1 &1837794116
 GameObject:
   m_ObjectHideFlags: 0
